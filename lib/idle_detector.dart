@@ -1,70 +1,24 @@
-library idle_detector;
+/// Detects when the user stops interacting with a Flutter app.
+///
+/// Wrap your app (or any part of it) in an [IdleDetector]. It calls
+/// [IdleDetector.onIdle] after a period with no touch, mouse, trackpad,
+/// keyboard or screen reader activity, and [IdleDetector.onActive] when the
+/// user comes back.
+///
+/// ```dart
+/// IdleDetector(
+///   idleTime: const Duration(minutes: 5),
+///   onIdle: () => print('The user went idle.'),
+///   onActive: () => print('The user is back.'),
+///   child: const MyApp(),
+/// )
+/// ```
+///
+/// Use an [IdleDetectorController] to report activity that the widget can't
+/// see itself, or to check whether the user is currently idle.
+library;
 
-import 'dart:async';
-import 'package:flutter/material.dart';
+// Imported as well as exported so the links in the library comment resolve.
+import 'src/idle_detector.dart';
 
-class IdleDetector extends StatefulWidget {
-  final Duration idleTime;
-
-  final Function? onIdle;
-  final Widget child;
-
-  const IdleDetector({
-    super.key,
-    required this.idleTime,
-    this.onIdle,
-    required this.child,
-  });
-
-  @override
-  State<IdleDetector> createState() => _IdleDetectorState();
-}
-
-class _IdleDetectorState extends State<IdleDetector> {
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _resetTimer();
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  void _resetTimer() {
-    _timer?.cancel();
-    _timer = Timer(widget.idleTime, () {
-      if (widget.onIdle != null) {
-        widget.onIdle!();
-      }
-    });
-  }
-
-  void handleUserInteraction() {
-    _resetTimer();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        handleUserInteraction();
-      },
-      onPanDown: (details) {
-        handleUserInteraction();
-      },
-      onHorizontalDragEnd: (details) {
-        handleUserInteraction();
-      },
-      onVerticalDragEnd: (details) {
-        handleUserInteraction();
-      },
-      child: widget.child,
-    );
-  }
-}
+export 'src/idle_detector.dart';

@@ -1,4 +1,16 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    - build/**
+
+linter:
+  rules:
+    - always_declare_return_types
+    - prefer_final_locals
+    - prefer_single_quotes
+    - public_member_api_docs
+    - unawaited_futures
+
 # Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+# https://dart.dev/tools/analysis
